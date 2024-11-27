@@ -1,14 +1,19 @@
 import React from "react";
 
-export default function DashboardNav() {
+export default function DashboardNav({ onSearch }) {
+  const handleSearchChange = (e) => {
+    onSearch(e.target.value);
+  };
+
   return (
     <div className=" ms-[270px] border-b-[1px] border-gray-700 p-4">
       <div className="wraper-nav flex justify-between items-center">
         <div className=" relative w-fit">
           <input
             type="search"
-            placeholder="Search Your Veichle Here"
+            placeholder="Search Your Vehicle Here"
             className="px-4 text-sm py-3 rounded-full bg-transparent border focus:outline-none w-[500px] border-gray-600"
+            onChange={handleSearchChange}
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"

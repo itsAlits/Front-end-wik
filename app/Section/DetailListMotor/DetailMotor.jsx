@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function DetailMotor() {
+export default function DetailMotor({ searchQuery }) {
   const [motors, setMotors] = useState([]);
   const [newReleases, setNewReleases] = useState([]);
   const [selectedMotor, setSelectedMotor] = useState(null);
@@ -32,12 +32,32 @@ export default function DetailMotor() {
     setSelectedMotor(null);
   };
 
+  const filteredMotors = motors.filter((motor) => {
+    if (!searchQuery) return true;
+    
+    const search = searchQuery.toLowerCase();
+    return (
+      motor.brand.toLowerCase().includes(search) ||
+      motor.model.toLowerCase().includes(search)
+    );
+  });
+
+  const filteredNewReleases = newReleases.filter((motor) => {
+    if (!searchQuery) return true;
+    
+    const search = searchQuery.toLowerCase();
+    return (
+      motor.brand.toLowerCase().includes(search) ||
+      motor.model.toLowerCase().includes(search)
+    );
+  });
+
   return (
     <div className="relative">
       <div className="grid grid-cols-12 gap-5">
         <div className="col-span-9 h-screen">
           <div className="grid grid-cols-4 gap-3">
-            {motors.map((motor) => (
+            {filteredMotors.map((motor) => (
               <div 
                 key={motor.id} 
                 className="rounded-lg relative overflow-hidden cursor-pointer transform transition-transform hover:scale-105"
@@ -50,22 +70,19 @@ export default function DetailMotor() {
                     className="opacity-90 w-full h-48 object-cover"
                   />
                 </div>
-                <div className="flex items-center absolute top-4 right-4 gap-2">
-                  <p className={`badge ${motor.status_pajak.includes("Aktif") ? "bg-green-400" : "bg-red-400"} badge-xs`}></p>
-                </div>
-                <div className="absolute bottom-6 left-4 text-white bg-black bg-opacity-50 p-2 rounded">
+                <div className="absolute bottom-6 left-4  text-white bg-black bg-opacity-50 p-2 rounded">
                   <h1 className="text-sm mt-2">{`${motor.brand} ${motor.model}`}</h1>
                   <p className="text-xs mt-1">Rp.{motor.harga.toLocaleString()}</p>
-                  <p className="text-xs mt-1">{`${motor.tahun} - ${motor.kilometer} km`}</p>
+                  <p className="text-xs mt-1">{motor.tahun} </p>
                 </div>
               </div>
             ))}
           </div>
         </div>
-        <div className="col-span-3 px-3 pt-4 pb-6 h-screen bg-gray-700/40 rounded">
+        <div className="col-span-3 px-3 pt-4 pb-6  h-fit bg-gray-700/40 rounded">
           <h1 className="text-lg text-center mb-4">New Release Motorcycle</h1>
           <div className="wraper-list flex flex-col gap-3 overflow-y-auto h-[calc(100%-4rem)]">
-            {newReleases.map((motor) => (
+            {filteredNewReleases.map((motor) => (
               <div 
                 key={motor.id} 
                 className="bg-indigo-500 text-white p-3 rounded hover:bg-indigo-600 transition-colors cursor-pointer"
@@ -76,8 +93,8 @@ export default function DetailMotor() {
                     <h1 className="text-sm font-semibold">{`${motor.brand} ${motor.model}`}</h1>
                     <p className="text-sm">{motor.tahun}</p>
                   </div>
-                  <div className="text-end">
-                    <p className="text-sm">{motor.status_pajak}</p>
+                  <div className="text-end ">
+                    <p className="text-sm">{motor.kapasitas_mesin}</p>
                     <p className="text-sm">Rp.{motor.harga.toLocaleString()}</p>
                   </div>
                 </div>
@@ -90,7 +107,7 @@ export default function DetailMotor() {
       {/* Overlay Modal */}
       {selectedMotor && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 relative">
+          <div className="bg-white rounded-lg max-w-4xl w-full mx-4  relative">
             <button
               onClick={closeModal}
               className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
@@ -109,34 +126,34 @@ export default function DetailMotor() {
                 />
               </svg>
             </button>
-            <div className="flex flex-col md:flex-row gap-6">
+            <div className="flex flex-col md:flex-row">
               <div className="md:w-1/2">
                 <img
                   src={selectedMotor.gambar}
                   alt={`${selectedMotor.brand} ${selectedMotor.model}`}
-                  className="w-full h-64 object-cover rounded-lg"
+                  className="w-full h-96 object-cover "
                 />
               </div>
-              <div className="md:w-1/2">
-                <h2 className="text-2xl font-bold mb-4">{`${selectedMotor.brand} ${selectedMotor.model}`}</h2>
+              <div className="md:w-1/2 p-6 bg-gray-900">
+                <h2 className="text-2xl font-bold mb-8">{`${selectedMotor.brand} ${selectedMotor.model}`}</h2>
                 <div className="space-y-3">
-                  <div className="flex justify-between border-b pb-2">
+                  <div className="flex justify-between pb-2">
                     <span className="font-semibold">Harga:</span>
                     <span>Rp.{selectedMotor.harga.toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between border-b pb-2">
+                  <div className="flex justify-between pb-2">
                     <span className="font-semibold">Tahun:</span>
                     <span>{selectedMotor.tahun}</span>
                   </div>
-                  <div className="flex justify-between border-b pb-2">
+                  <div className="flex justify-between pb-2">
                     <span className="font-semibold">Kilometer:</span>
                     <span>{selectedMotor.kilometer.toLocaleString()} km</span>
                   </div>
-                  <div className="flex justify-between border-b pb-2">
+                  <div className="flex justify-between pb-2">
                     <span className="font-semibold">Kapasitas Mesin:</span>
                     <span>{selectedMotor.kapasitas_mesin}</span>
                   </div>
-                  <div className="flex justify-between border-b pb-2">
+                  <div className="flex justify-between pb-2">
                     <span className="font-semibold">Status Pajak:</span>
                     <span className={`${
                       selectedMotor.status_pajak.includes("Aktif")

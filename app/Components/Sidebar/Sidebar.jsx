@@ -1,8 +1,29 @@
+"use client";
+
 import React from "react";
+import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Sidebar() {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const getLinkClass = (path) => {
+    const isActive = pathname === path;
+    return isActive
+      ? "bg-indigo-500 text-white transition p-3 rounded-md"
+      : "hover:bg-gray-700 transition bg-transparent p-3 rounded-md";
+  };
+
+  const handleLogout = () => {
+    // Hapus token dari localStorage
+    localStorage.removeItem("token");
+    // Redirect ke halaman login
+    router.push("/");
+  };
+
   return (
-    <div className=" border-r-[1px] fixed border-gray-700 w-[270px] h-screen p-4">
+    <div className="border-r-[1px] fixed border-gray-700 w-[270px] h-screen p-4">
       {/* sidebar menu */}
       <div className="wraperSidebar mt-4 flex flex-col gap-2">
         <div className="mb-4 px-3 flex items-center gap-1">
@@ -28,8 +49,8 @@ export default function Sidebar() {
           </svg>
         </div>
         <p className="mb-1 mt-4 px-3 text-sm">Feature</p>
-        <a href="">
-          <div className=" bg-indigo-500 text-white transition p-3 rounded-md">
+        <Link href="/Dashboard">
+          <div className={getLinkClass("/Dashboard")}>
             <div className="flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -48,10 +69,10 @@ export default function Sidebar() {
               <h1 className="text-sm">Home</h1>
             </div>
           </div>
-        </a>
+        </Link>
 
-        <a href="">
-          <div className="hover:bg-gray-700 transition bg-transparent p-3 rounded-md">
+        <Link href="/DaftarMotor">
+          <div className={getLinkClass("/DaftarMotor")}>
             <div className="flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -67,14 +88,13 @@ export default function Sidebar() {
                   d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"
                 />
               </svg>
-
               <h1 className="text-sm">Daftar Motor Bekas</h1>
             </div>
           </div>
-        </a>
+        </Link>
 
-        <a href="">
-          <div className="hover:bg-gray-700 transition bg-transparent p-3 rounded-md">
+        <Link href="/rekomendasi">
+          <div className={getLinkClass("/rekomendasi")}>
             <div className="flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -95,16 +115,15 @@ export default function Sidebar() {
                   d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z"
                 />
               </svg>
-
               <h1 className="text-sm">Rekomendasi</h1>
             </div>
           </div>
-        </a>
+        </Link>
 
         <p className="mt-8 mb-1 px-3 text-sm">Account</p>
 
-        <a href="">
-          <div className="hover:bg-gray-700 transition bg-transparent p-3 rounded-md">
+        <Link href="">
+          <div className={getLinkClass("")}>
             <div className="flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -129,9 +148,17 @@ export default function Sidebar() {
               <h1 className="text-sm">Setting</h1>
             </div>
           </div>
-        </a>
+        </Link>
+
+        <div onClick={handleLogout} className={`${getLinkClass("")} cursor-pointer`}>
+          <div className="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+            </svg>
+            <h1 className="text-sm">Logout</h1>
+          </div>
+        </div>
       </div>
-      {/* sidebar menu */}
     </div>
   );
 }

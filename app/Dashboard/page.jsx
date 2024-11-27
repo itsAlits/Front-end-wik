@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <Sidebar />
-      <DashboardNav />
+      {/* <DashboardNav /> */}
       <Main />
     </div>
   );

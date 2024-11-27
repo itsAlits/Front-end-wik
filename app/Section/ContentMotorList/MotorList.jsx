@@ -38,8 +38,8 @@ export default function MotorList() {
   };
 
   return (
-    <div >
-      <div className="motor-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+    <div className=" mt-8">
+      <div className="motor-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
         {currentMotorbikes.map((motorbike) => (
           <Card
             key={motorbike.id}
@@ -52,13 +52,14 @@ export default function MotorList() {
         ))}
       </div>
 
+        <div className="mt-10 flex justify-end">
       {totalPages > 1 && (
         <div className="join">
           <button
             className="join-item btn"
             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-          >
+            >
             «
           </button>
           {getPageNumbers().map((pageNum) => (
@@ -66,7 +67,7 @@ export default function MotorList() {
               key={pageNum}
               className={`join-item btn ${pageNum === currentPage ? 'btn-active' : ''}`}
               onClick={() => setCurrentPage(pageNum)}
-            >
+              >
               {pageNum}
             </button>
           ))}
@@ -74,11 +75,12 @@ export default function MotorList() {
             className="join-item btn"
             onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
-          >
+            >
             »
           </button>
         </div>
       )}
+      </div>
     </div>
   );
 }

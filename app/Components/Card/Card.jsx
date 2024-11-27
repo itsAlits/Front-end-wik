@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function Card({ brand, gambar, harga, model, tahun }) {
+  // const [imageError, setImageError] = useState(false);
+
+  // if (imageError) {
+  //   return null;
+  // }
+
   return (
     <div className="card-motor">
       <div className="wraper-card h-52 overflow-hidden">
@@ -8,6 +14,7 @@ export default function Card({ brand, gambar, harga, model, tahun }) {
           src={gambar}
           alt={model}
           className="object-cover w-full h-full object-top"
+          // onError={() => setImageError(true)}
         />
       </div>
       <div className="mt-3 flex justify-between">
