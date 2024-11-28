@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
 export default function Card({ brand, gambar, harga, model, tahun }) {
-  // const [imageError, setImageError] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
-  // if (imageError) {
-  //   return null;
-  // }
+  if (imageError) {
+    return null;
+  }
 
   return (
     <div className="card-motor">
@@ -14,7 +14,7 @@ export default function Card({ brand, gambar, harga, model, tahun }) {
           src={gambar}
           alt={model}
           className="object-cover w-full h-full object-top"
-          // onError={() => setImageError(true)}
+          onError={() => setImageError(true)}
         />
       </div>
       <div className="mt-3 flex justify-between">
