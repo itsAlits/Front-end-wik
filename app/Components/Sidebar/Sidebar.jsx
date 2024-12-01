@@ -93,7 +93,7 @@ export default function Sidebar() {
           </div>
         </Link>
 
-        <Link href="/rekomendasi">
+        <Link href="/Rekomendasi">
           <div className={getLinkClass("/rekomendasi")}>
             <div className="flex items-center gap-2">
               <svg
