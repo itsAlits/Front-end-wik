@@ -114,6 +114,9 @@ export default function Page() {
       weight_status_pajak: normalizedWeights.weight_status_pajak
     };
 
+    console.log('Request data:', requestData);
+
+
     // Send request to backend
     fetch('http://127.0.0.1:5000/search', {
       method: 'POST',
