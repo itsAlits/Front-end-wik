@@ -4,10 +4,8 @@ import React, { useState, useEffect } from "react";
 import axiosInstance from "@/app/api/axios";
 import Card from "@/app/Components/Card/Card";
 
-export default function MotorList() {
+export default function MotorList({ selectedBrand, searchQuery }) {
   const [motorbikes, setMotorbikes] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 28; // Show 8 items per page
 
   useEffect(() => {
     axiosInstance
@@ -18,69 +16,50 @@ export default function MotorList() {
       })
       .catch((error) => {
         console.error("Error fetching motorbikes:", error);
-        console.log(response.data);
       });
   }, []);
 
-  // Calculate pagination values
-  const totalPages = Math.ceil(motorbikes.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentMotorbikes = motorbikes.slice(startIndex, endIndex);
+  // Filter motorbikes based on selected brand and search query
+  const filteredMotorbikes = motorbikes.filter((bike) => {
+    const matchesBrand = selectedBrand
+      ? bike.brand.toLowerCase() === selectedBrand.toLowerCase()
+      : true;
+    
+    const matchesSearch = searchQuery
+      ? bike.model.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        bike.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        bike.tahun.toString().includes(searchQuery.toLowerCase())
+      : true;
 
-  // Generate page numbers array
-  const getPageNumbers = () => {
-    const pages = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pages.push(i);
-    }
-    return pages;
-  };
+    return matchesBrand && matchesSearch;
+  });
 
   return (
-    <div className=" mt-8">
-      <div className="motor-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
-        {currentMotorbikes.map((motorbike) => (
-          <Card
-            key={motorbike.id}
-            brand={motorbike.brand}
-            gambar={motorbike.gambar}
-            harga={motorbike.harga}
-            model={motorbike.model}
-            tahun={motorbike.tahun}
-          />
-        ))}
-      </div>
-
-        <div className="mt-10 flex justify-end">
-      {totalPages > 1 && (
-        <div className="join">
-          <button
-            className="join-item btn"
-            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
-            >
-            «
-          </button>
-          {getPageNumbers().map((pageNum) => (
-            <button
-              key={pageNum}
-              className={`join-item btn ${pageNum === currentPage ? 'btn-active' : ''}`}
-              onClick={() => setCurrentPage(pageNum)}
-              >
-              {pageNum}
-            </button>
+    <div className="mt-8">
+      {filteredMotorbikes.length === 0 ? (
+        <div className="text-center py-8">
+          <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+          <h3 className="mt-2 text-sm font-medium text-gray-900">No motorcycles found</h3>
+          <p className="mt-1 text-sm text-gray-500">
+            Try adjusting your search or filter to find what you're looking for.
+          </p>
+        </div>
+      ) : (
+        <div className="motor-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
+          {filteredMotorbikes.map((motorbike) => (
+            <Card
+              key={motorbike.id}
+              brand={motorbike.brand}
+              gambar={motorbike.gambar}
+              harga={motorbike.harga}
+              model={motorbike.model}
+              tahun={motorbike.tahun}
+            />
           ))}
-          <button
-            className="join-item btn"
-            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-            disabled={currentPage === totalPages}
-            >
-            »
-          </button>
         </div>
       )}
-      </div>
     </div>
   );
 }

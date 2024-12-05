@@ -11,8 +11,8 @@ export default function Sidebar() {
   const getLinkClass = (path) => {
     const isActive = pathname === path;
     return isActive
-      ? "bg-indigo-500 text-white transition p-3 rounded-md"
-      : "hover:bg-gray-700 transition bg-transparent p-3 rounded-md";
+      ? "bg-blue-600 text-white transition p-3 rounded-md"
+      : "hover:bg-gray-900/10 transition bg-transparent p-3 rounded-md";
   };
 
   const handleLogout = () => {
@@ -23,31 +23,9 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="border-r-[1px] fixed border-gray-700 w-[270px] h-screen p-4">
+    <div className="border-r-[1px] fixed bg-white border-gray-200 text-gray-800 w-[270px] h-screen p-4">
       {/* sidebar menu */}
-      <div className="wraperSidebar mt-4 flex flex-col gap-2">
-        <div className="mb-4 px-3 flex items-center gap-1">
-          <h1 className="text-2xl font-bold">DwiksMotors</h1>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z"
-            />
-          </svg>
-        </div>
+      <div className="wraperSidebar flex flex-col gap-2">
         <p className="mb-1 mt-4 px-3 text-sm">Feature</p>
         <Link href="/Dashboard">
           <div className={getLinkClass("/Dashboard")}>
@@ -94,7 +72,7 @@ export default function Sidebar() {
         </Link>
 
         <Link href="/Rekomendasi">
-          <div className={getLinkClass("/rekomendasi")}>
+          <div className={getLinkClass("/Rekomendasi")}>
             <div className="flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

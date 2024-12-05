@@ -60,13 +60,13 @@ export default function DashboardNav({ onSearch }) {
   };
 
   return (
-    <div className="ms-[270px] border-b-[1px] border-gray-700 p-4">
+    <div className="ms-[270px] border-b-[1px] border-gray-200 p-4">
       <div className="wraper-nav flex justify-between items-center">
         <div className="relative w-fit">
           <input
             type="search"
             placeholder="Search Your Vehicle Here"
-            className="px-4 text-sm py-3 rounded-full bg-transparent border focus:outline-none w-[500px] border-gray-600"
+            className="px-4 text-sm py-3 rounded-full bg-transparent border focus:outline-none w-[500px] border-gray-300"
             onChange={handleSearchChange}
           />
           <svg
@@ -74,7 +74,7 @@ export default function DashboardNav({ onSearch }) {
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth="1.5"
-            stroke="currentColor"
+            stroke="#4b5563"
             className="size-6 absolute top-3 right-4"
           >
             <path
@@ -84,7 +84,7 @@ export default function DashboardNav({ onSearch }) {
             />
           </svg>
         </div>
-        <div className="w-fit bg-[#2b333f94] rounded-lg px-5 py-3 flex items-center gap-4">
+        <div className="w-fit  border bg-gray-50 rounded-lg px-5 py-3 flex items-center gap-4">
           {loading ? (
             <p className="text-sm">Loading...</p>
           ) : error ? (
